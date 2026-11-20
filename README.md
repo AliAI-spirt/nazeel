@@ -4,8 +4,8 @@
 
 # Nazeel | نزيل
 
-**إحصائيات النزلاء + مساعد إدخال ذكي للفنادق — إضافة Chrome (Manifest V3)**
-*Guest analytics + AI-assisted guest registration for hotels — Chrome Extension (MV3)*
+**Guest analytics + AI-assisted guest registration for hotels**
+*A Chrome extension (Manifest V3)*
 
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-1f7a5a)
 ![Version](https://img.shields.io/badge/version-5.2.0-b8832a)
@@ -14,162 +14,154 @@
 ![Privacy](https://img.shields.io/badge/AI-Local%20first-1f7a5a)
 ![CI](https://github.com/AliAI-spirt/nazeel/actions/workflows/ci.yml/badge.svg)
 
-[العربية](#-العربية) · [English](#-english) · [الخصوصية](PRIVACY.md) · [الأمان](SECURITY.md) · [سجل التغييرات](CHANGELOG.md)
+[Privacy](PRIVACY.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
 </div>
 
 ---
 
-## 🇮🇶 العربية
+## What is Nazeel?
 
-### ما هي «نزيل»؟
-إضافة لمتصفح Chrome تساعد موظف الاستقبال على أمرين:
+Nazeel is a Chrome extension that helps hotel front-desk staff with two daily tasks:
 
-1. **إحصائيات النزلاء** — تحلل صفحة النزلاء وتعرض: العدد الكلي، الجدد والقدامى، العراقيون والأجانب، الجنسيات، الطوابق والغرف، الأعمار، مدة الإقامة، مع تنبيهات (أسماء مكررة، غرف مزدحمة، قاصرون).
-2. **مساعد الإدخال الذكي** — يقرأ صور **الهوية الوطنية، الجواز، التأشيرة** (أي دولة) بالذكاء الاصطناعي، ويعبّي استمارة «إضافة نزيل» **للمراجعة**؛ الموظف هو من يدقق ويضغط «التالي».
+1. **Guest analytics** – analyzes the guests page and shows total guests, new vs. returning, Iraqi vs. foreign, nationalities, floors and rooms, ages and length of stay, with data-quality alerts (duplicate names, crowded rooms, minors).
+2. **Smart Entry Assistant** – reads photos of **national IDs, passports and visas** (from any country) with AI and pre-fills the "Add guest" form **for human review**. The staff member checks every field and clicks "Next" themselves.
 
-### 💡 ما الفائدة؟
-| المشكلة اليومية في الاستقبال | كيف تحلّها «نزيل» |
+> **Note:** the extension's user interface is currently in Arabic (right-to-left). A full English interface is on the roadmap.
+
+## Why use it?
+
+| Everyday front-desk problem | How Nazeel helps |
 |---|---|
-| إدخال بيانات الهوية/الجواز يدوياً حقلاً بعد حقل، وفيه أخطاء إملائية وأرقام خاطئة | قراءة الوثيقة بالذكاء الاصطناعي ثم **التحقق من MRZ بأرقام التحقق (ICAO 9303)** لتصحيح رقم الجواز وتاريخ الميلاد والجنسية |
-| الجوازات الأجنبية بأبجديات مختلفة وأسماء متعددة الأجزاء | توحيد الأسماء لاتينياً وتوزيعها على حقول المنظومة واختيار الاستمارة (عراقي/أجنبي) تلقائياً |
-| صور مقلوبة أو عدة صفحات للوثيقة الواحدة | تدوير تلقائي ودمج الصور في صورة واحدة قبل القراءة |
-| سؤال الإدارة اليومي: «كم نزيل؟ كم أجنبي؟ أي الغرف مزدحمة؟» | لوحة إحصائيات فورية + تقرير واتساب + CSV + تقرير للطباعة |
-| الخوف على خصوصية النزلاء | الوضع الافتراضي **محلي بالكامل**، لا تتبع ولا خادم وسيط، والإضافة لا تعمل إلا على موقع تفعّله بنفسك |
-| الثقة بالأتمتة | **لا تضغط «التالي» ولا تُرسل نيابةً عنك**: كل حقل مُعبّأ يُلوَّن (موثوق / يحتاج مراجعة / ناقص) ويدقّقه الموظف |
+| Typing ID/passport data field by field causes typos and wrong numbers | AI reads the document, then **MRZ check-digit validation (ICAO 9303)** corrects the passport number, date of birth and nationality |
+| Foreign passports use different scripts and multi-part names | Names are normalized to Latin letters, split into the system's fields, and the correct form (Iraqi / foreign) is selected automatically |
+| Upside-down photos or several pages for one document | Automatic rotation and merging of images into one before reading |
+| Management asks daily: "How many guests? How many foreigners? Which rooms are crowded?" | Instant statistics dashboard + WhatsApp report + CSV + printable report |
+| Worry about guest privacy | **Fully local by default**, no tracking, no middle server, and the extension only runs on a site you enable yourself |
+| Trust in automation | It **never clicks "Next" or submits for you**: every filled field is color-coded (trusted / needs review / missing) and verified by staff |
 
-### ✨ المزايا
+## Features
 
-| الميزة | التفاصيل |
+| Feature | Details |
 |---|---|
-| 📊 لوحة إحصائيات | ملخص، جنسيات، غرف، نزلاء — مع فلاتر (`305` / `301-308` / `3*`) |
-| 📱 نسخ للواتساب | تقرير نصي منسق بضغطة واحدة |
-| 🧾 تقرير كامل | صفحة قابلة للطباعة / حفظ PDF |
-| 📤 تصدير CSV | بترميز UTF-8 متوافق مع Excel |
-| 🪪 قراءة الوثائق | هوية (وجه/ظهر)، جواز، تأشيرة، تأشيرة إلكترونية عراقية |
-| 🔄 تدوير تلقائي | يصحح الصور المقلوبة قبل القراءة |
-| 🧩 دمج الصور | يدمج عدة صور في صورة واحدة قبل التحليل |
-| 🌍 كل الدول | يختار الدولة ونوع الاستمارة (عراقي/أجنبي) تلقائياً |
-| 🔒 خصوصية أولاً | الوضع الافتراضي **محلي بالكامل** عبر Ollama |
-| ☁️ Gemini اختياري | أسرع وأدق، مع تحذير صريح قبل إرسال أي صورة |
+| 📊 Statistics dashboard | Summary, nationalities, rooms, guests – with filters (`305` / `301-308` / `3*`) |
+| 📱 WhatsApp copy | A formatted text report in one click |
+| 🧾 Full report | Printable page / save as PDF |
+| 📤 CSV export | UTF-8 with BOM for Excel; spreadsheet formulas are neutralized |
+| 🪪 Document reading | ID (front/back), passport, visa sticker, Iraqi e-Visa |
+| 🔄 Auto-rotation | Fixes upside-down images before reading |
+| 🧩 Image merging | Combines several images into one before analysis |
+| 🌍 All countries | Picks the country and form type (Iraqi / foreign) automatically |
+| 🔒 Privacy first | Default engine is **fully local** through Ollama |
+| ☁️ Optional Gemini | Faster and more accurate, with an explicit warning before any image is sent |
 
-### 🏗️ كيف تعمل؟
+## How it works
 
 ```mermaid
 flowchart LR
-  A[رفع صورة الوثيقة] --> B[content.js]
-  B --> C[تصغير + كشف الاتجاه + تدوير + دمج]
+  A[Upload document image] --> B[content.js]
+  B --> C[Resize + detect orientation + rotate + merge]
   C --> D[background.js - Service Worker]
-  D -->|محلي| E[(Ollama)]
-  D -->|اختياري| F[(Gemini API)]
-  E --> G[ai.js: تطبيع النتيجة]
+  D -->|local| E[(Ollama)]
+  D -->|optional| F[(Gemini API)]
+  E --> G[ai.js: normalize result]
   F --> G
-  G --> H[filler.js: تعبئة الخطوة]
-  H --> I[✅ تدقيق الموظف ثم التالي]
+  G --> H[filler.js: fill the step]
+  H --> I[✅ Staff review, then Next]
 ```
 
-### 📦 التثبيت
+## Installation
 
-**للمستخدم (من الإصدارات):**
-1. نزّل `nazeel-vX.Y.Z.zip` من صفحة [Releases](../../releases) وفك الضغط.
-2. افتح `chrome://extensions` وفعّل **وضع المطوّر**.
-3. اضغط **تحميل إضافة غير مضغوطة** واختر المجلد.
-4. افتح صفحة المنظومة، ثم افتح لوحة **مساعد الإدخال** واضغط **«تفعيل على هذا الموقع»** ووافق على الإذن. (مرة واحدة لكل موقع؛ تستطيع إلغاءه متى شئت.)
+**For users (from Releases):**
+1. Download `nazeel-vX.Y.Z.zip` from the [Releases](../../releases) page and unzip it into a permanent folder.
+2. Open `chrome://extensions` and turn on **Developer mode**.
+3. Click **Load unpacked** and select the folder.
+4. Open the hotel system page, open the **Entry Assistant** side panel, click **"Enable on this site"** (in Arabic) and approve the permission. This is done once per site and can be revoked at any time.
 
-**للمطوّر:**
+**For developers:**
 ```bash
 git clone https://github.com/AliAI-spirt/nazeel.git
 cd nazeel
 npm ci
-npm run verify   # فحص المانيفست والإصدارات والأسرار + الاختبارات الآلية
-npm run build    # ينتج dist/nazeel-vX.Y.Z.zip و SHA256SUMS.txt
-npm run bump -- 5.3.0   # رفع الإصدار في كل الملفات دفعة واحدة
+npm run verify          # manifest, versions, secret scan + automated tests
+npm run build           # produces dist/nazeel-vX.Y.Z.zip and SHA256SUMS.txt
+npm run bump -- 5.3.0   # bump the version everywhere in one step
 ```
-ثم حمّل مجلد `src/` كإضافة غير مضغوطة.
+Then load the `src/` folder as an unpacked extension.
 
-### 🤖 إعداد الذكاء الاصطناعي
+## AI setup
 
-**الخيار 1 — محلي (موصى به للخصوصية):**
+**Option 1 – Local (recommended for privacy):**
 ```bash
-# ثبّت Ollama من https://ollama.com ثم:
+# Install Ollama from https://ollama.com, then:
 ollama pull qwen3-vl:4b-instruct
 ```
-افتح لوحة الإضافة ← *مساعد الإدخال* ← *إعدادات الذكاء* ← **اختبار الاتصال**.
+Open the extension panel → *Entry Assistant* → *AI settings* → **Test connection**.
 
-**الخيار 2 — Google Gemini (سحابي):**
-احصل على مفتاح من [AI Studio](https://aistudio.google.com/apikey) والصقه في الإعدادات. تُرسل الصور إلى Google — اقرأ [PRIVACY.md](PRIVACY.md) أولاً.
+**Option 2 – Google Gemini (cloud):**
+Get a key from [AI Studio](https://aistudio.google.com/apikey) and paste it into the settings. Images are sent to Google – read [PRIVACY.md](PRIVACY.md) first.
 
-### 🔐 الأذونات ولماذا نحتاجها
+## Permissions and why they are needed
 
-| الإذن | السبب |
+| Permission | Reason |
 |---|---|
-| `storage` | حفظ الإعدادات والبيانات المحللة على جهازك فقط |
-| `activeTab` + `scripting` | قراءة صفحة النزلاء وتعبئة الاستمارة عند طلبك |
-| `sidePanel` | عرض مساعد الإدخال |
-| `declarativeNetRequest` | إزالة ترويسة `Origin` لطلبات Ollama المحلية |
-| وصول **اختياري** لموقع واحد | يُطلب فقط عند ضغطك «تفعيل على هذا الموقع»، لموقع المنظومة وحده، وتستطيع سحبه في أي وقت |
-| `localhost:11434` | الاتصال بـ Ollama المحلي |
+| `storage` | Save settings and analyzed data on your device only |
+| `activeTab` + `scripting` | Read the guests page and fill the form when you ask |
+| `sidePanel` | Show the Entry Assistant |
+| `declarativeNetRequest` | Remove the `Origin` header for local Ollama requests |
+| **Optional** access to one site | Requested only when you click "Enable on this site", for the hotel system alone, and you can revoke it at any time |
+| `localhost:11434` | Connect to local Ollama |
 
-### 🗂️ هيكل المشروع
+## Project structure
+
 ```
 nazeel/
-├─ src/                 # كود الإضافة (يُحمَّل في Chrome)
+├─ src/                 # extension code (loaded into Chrome)
 │  ├─ manifest.json
-│  ├─ background.js     # Service Worker: طلبات الذكاء
-│  ├─ site.js           # تفعيل الإضافة على موقع المنظومة فقط (أقل صلاحيات)
-│  ├─ content.js        # يلتقط رفع الصور داخل المنظومة
-│  ├─ filler.js         # تعبئة حقول الاستمارة
-│  ├─ ai.js             # Ollama / Gemini + تطبيع النتائج
-│  ├─ imaging.js        # تصغير/تدوير/دمج الصور
-│  ├─ countries.js      # بيانات الدول والرموز
-│  ├─ analysis.js       # مكتبة الإحصائيات المشتركة
-│  ├─ popup.*           # النافذة المنبثقة
-│  ├─ assistant.*       # اللوحة الجانبية
-│  └─ report.*          # التقرير الكامل
-├─ test/                # اختبارات آلية (node:test): MRZ، التطبيع، الفلاتر، CSV
-├─ docs/                # شعار وصور ودلائل
-├─ store/               # نصوص صفحة المتجر
-├─ scripts/             # أدوات البناء والفحص
-└─ .github/             # قوالب القضايا وسير العمل
+│  ├─ background.js     # Service Worker: AI requests
+│  ├─ site.js           # enable the extension on the hotel site only (least privilege)
+│  ├─ content.js        # captures image uploads inside the hotel system
+│  ├─ filler.js         # fills the form fields
+│  ├─ ai.js             # Ollama / Gemini + result normalization
+│  ├─ imaging.js        # resize / rotate / merge images
+│  ├─ countries.js      # country data and codes
+│  ├─ analysis.js       # shared statistics library
+│  ├─ popup.*           # popup window
+│  ├─ assistant.*       # side panel
+│  └─ report.*          # full report
+├─ test/                # automated tests (node:test): MRZ, normalization, filters, CSV
+├─ docs/                # logo, images, guides
+├─ store/               # store listing texts
+├─ scripts/             # build and check tools
+└─ .github/             # issue templates and workflows
 ```
 
-### 🧭 خارطة الطريق
-- [x] تقييد الإضافة على موقع المنظومة فقط (v5.2.0)
-- [x] اختبارات آلية لتطبيع الوثائق وMRZ (v5.2.0)
-- [ ] لقطة يومية تلقائية للإحصائيات (`chrome.alarms`) مع مخطط اتجاه الإشغال — بدون بيانات شخصية
-- [ ] كشف تكرار النزيل وتنبيه الوثائق المنتهية/القريبة الانتهاء قبل الحفظ
-- [ ] مؤشر ثقة لكل حقل (مقروء من MRZ / من الذكاء فقط / غير مؤكد)
-- [ ] تشفير مفتاح Gemini بعبارة مرور يدخلها المستخدم (أو تخزينه في الذاكرة فقط لكل جلسة)
-- [ ] دعم تسجيل الدخول للمجموعات (عدة فنادق)
-- [ ] واجهة إنكليزية كاملة
+## Roadmap
 
-### 🤝 المساهمة
-نرحب بالمساهمات — راجع [CONTRIBUTING.md](CONTRIBUTING.md). للإبلاغ عن ثغرة أمنية اقرأ [SECURITY.md](SECURITY.md).
+- [x] Restrict the extension to the hotel system site only (v5.2.0)
+- [x] Automated tests for document normalization and MRZ (v5.2.0)
+- [ ] Automatic daily statistics snapshot (`chrome.alarms`) with an occupancy trend chart – no personal data
+- [ ] Duplicate-guest detection and expired / soon-to-expire document alerts before saving
+- [ ] Per-field confidence indicator (read from MRZ / AI only / unverified)
+- [ ] Encrypt the Gemini key with a user passphrase (or keep it in memory only, per session)
+- [ ] Multi-hotel (group) sign-in support
+- [ ] Full English interface
 
-### ⚠️ إخلاء مسؤولية
-الأداة **مساعِدة** وليست بديلاً عن التدقيق البشري. المستخدم مسؤول عن صحة البيانات المسجلة وعن الالتزام بأنظمة بلده وسياسة فندقه في حماية بيانات النزلاء.
+## Contributing
 
----
+Contributions are welcome – see [CONTRIBUTING.md](CONTRIBUTING.md). To report a security vulnerability, read [SECURITY.md](SECURITY.md).
 
-## 🇬🇧 English
+## Privacy at a glance
 
-**Nazeel** is a Manifest V3 Chrome extension for hotel front desks with two parts:
-
-- **Guest analytics** — occupancy, new vs. returning guests, Iraqi vs. foreign, nationalities, floors/rooms, ages, length of stay, plus data-quality alerts. Export to CSV, WhatsApp text, or a printable report.
-- **Smart Entry Assistant** — reads national IDs, passports and visas from any country using a **local model (Ollama)** or **Google Gemini**, auto-rotates upside-down scans, merges multi-page images, and pre-fills the guest form **for human review**. It never submits on your behalf.
-
-### Quick start
-```bash
-git clone https://github.com/AliAI-spirt/nazeel.git && cd nazeel
-npm run check && npm run build
-# chrome://extensions → Developer mode → Load unpacked → select ./src
-ollama pull qwen3-vl:4b-instruct   # local, private OCR
-```
-
-### Privacy at a glance
-- Default engine is **fully local**; nothing leaves the machine.
+- The default engine is **fully local**; nothing leaves the machine.
 - Gemini is **opt-in** and shows an explicit warning; images are sent to Google.
+- The extension runs only on the one site you enable.
 - No analytics, no telemetry, no remote code. See [PRIVACY.md](PRIVACY.md).
 
-### License
-[MIT](LICENSE) © SpiritTECH  contributors
+## Disclaimer
+
+This tool is an **assistant**, not a replacement for human verification. The user is responsible for the accuracy of the recorded data and for complying with local regulations and the hotel's guest-data protection policy.
+
+## License
+
+[MIT](LICENSE) © SpiritTECH contributors
