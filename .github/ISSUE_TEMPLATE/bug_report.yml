@@ -1,0 +1,22 @@
+name: Bug report / بلاغ خطأ
+description: Something is not working
+labels: [bug]
+body:
+  - type: markdown
+    attributes: { value: "⚠️ Do NOT attach real guest data or document photos." }
+  - type: input
+    id: version
+    attributes: { label: Extension version, placeholder: "5.0.0" }
+  - type: dropdown
+    id: engine
+    attributes: { label: AI engine, options: [Ollama (local), Gemini (cloud), Not AI related] }
+  - type: textarea
+    id: what
+    attributes: { label: What happened? / ماذا حدث؟ }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Steps to reproduce }
+  - type: textarea
+    id: logs
+    attributes: { label: Console errors (chrome://extensions → service worker) }

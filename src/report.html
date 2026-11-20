@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تقرير النزلاء</title>
+<style>
+  :root{--ink:#14213d;--brass:#b8832a;--jade:#1f7a5a;--rust:#b4452c;--line:#d5dbe6;--mute:#5b6882;--bg:#eef1f6}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",sans-serif}
+  body{background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+  .page{max-width:980px;margin:18px auto;background:#fff;border:1px solid var(--line);padding:28px 34px}
+  .num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--brass);padding-bottom:12px;margin-bottom:16px}
+  .top h1{font-size:22px} .top p{color:var(--mute);font-size:13px}
+  .tools button{padding:8px 16px;border:none;background:var(--ink);color:#fff;border-radius:6px;cursor:pointer;font-weight:700}
+  .filters{background:#fbf1dc;border:1px solid #e3c88e;padding:7px 12px;border-radius:6px;margin-bottom:16px;font-size:13px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+  .kpi{border:1px solid var(--line);border-right:5px solid var(--ink);padding:10px 12px;border-radius:6px}
+  .kpi.iq{border-right-color:var(--jade)} .kpi.fr{border-right-color:var(--brass)}
+  .kpi .v{font-size:28px;font-weight:800;line-height:1.1} .kpi .l{color:var(--mute);font-size:12px} .kpi .s{font-size:12px;color:var(--mute)}
+  h2{font-size:16px;margin:22px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:6px}
+  th{background:#f3f5f9;text-align:right;padding:6px 8px;border:1px solid var(--line)}
+  td{padding:5px 8px;border:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#fafbfd}
+  .pill{display:inline-block;padding:0 7px;border-radius:9px;font-size:11px;font-weight:700}
+  .pill.n{background:#dff3ea;color:var(--jade)} .pill.o{background:#fbf1dc;color:#8a5c10}
+  .alert{padding:7px 12px;border-radius:5px;margin-bottom:6px}
+  .alert.warn{background:#fbe4dd;color:#7d2b19} .alert.info{background:#e8eefb;color:#243b73}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .bar{display:grid;grid-template-columns:130px 1fr 30px;gap:8px;align-items:center;margin:4px 0;font-size:13px}
+  .bar .t{height:9px;background:#e8ecf3;border-radius:5px;overflow:hidden} .bar .t i{display:block;height:100%;background:var(--ink)}
+  .foot{margin-top:24px;color:var(--mute);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:8px}
+  @media print{
+    body{background:#fff;font-size:12px} .page{border:none;margin:0;padding:0;max-width:none} .tools{display:none}
+    h2{break-after:avoid} tr{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="page" id="root"></div>
+<script src="analysis.js"></script>
+<script src="report.js"></script>
+</body>
+</html>

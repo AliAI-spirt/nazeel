@@ -1,0 +1,31 @@
+name: Publish to Chrome Web Store
+# يدوي فقط (Actions ← Run workflow). يحتاج Secrets: CWS_EXTENSION_ID, CWS_CLIENT_ID, CWS_CLIENT_SECRET, CWS_REFRESH_TOKEN
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'نشر فوراً بعد الرفع؟ (false = رفع كمسودة فقط)'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Upload (and optionally publish)
+        env:
+          EXTENSION_ID: ${{ secrets.CWS_EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+        run: |
+          ZIP=$(ls dist/nazeel-v*.zip | grep -v protected | head -n1)
+          npx --yes chrome-webstore-upload-cli@3 upload --source "$ZIP" --auto-publish=${{ inputs.publish }}

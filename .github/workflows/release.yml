@@ -1,0 +1,30 @@
+name: Release
+# يُشغَّل عند دفع وسم مثل v5.2.0 . خطوات الإصدار: npm run bump -- 5.2.0 ثم commit ثم git tag v5.2.0 ثم git push --tags
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Tag must equal manifest version
+        run: |
+          V=$(node -p "require('./src/manifest.json').version")
+          [ "v$V" = "${GITHUB_REF_NAME}" ] || { echo "Tag ${GITHUB_REF_NAME} != manifest v$V"; exit 1; }
+      - run: npm run build
+      - name: Release notes from CHANGELOG
+        run: node scripts/release-notes.js "${GITHUB_REF_NAME#v}" > RELEASE_NOTES.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          files: |
+            dist/*.zip
+            dist/SHA256SUMS.txt

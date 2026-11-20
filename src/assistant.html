@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مساعد الإدخال الذكي</title>
+<style>
+  :root{--ink:#14213d;--ink2:#2c3e63;--brass:#b8832a;--brass-bg:#fbf1dc;--jade:#1f7a5a;--jade-bg:#dff3ea;--rust:#b4452c;--rust-bg:#fbe4dd;--bg:#eef1f6;--card:#fff;--line:#d5dbe6;--mute:#5b6882}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",sans-serif}
+  body{background:var(--bg);color:var(--ink);font-size:13px;min-width:320px}
+  header{background:var(--ink);color:#fff;padding:10px 12px;border-bottom:3px solid var(--brass);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+  header h1{font-size:14px} header small{display:block;color:#aeb9d1;font-size:10.5px;margin-top:2px}
+  .ghost{background:transparent;border:1px solid #4a5b82;color:#dfe5f2;border-radius:5px;padding:4px 9px;cursor:pointer}
+  .ghost:hover{background:var(--ink2)}
+  main{padding:10px 12px 90px}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:7px;margin-bottom:10px;overflow:hidden}
+  .sec>h2{font-size:12.5px;padding:7px 10px;background:#f3f5f9;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--ink2)}
+  .sec .body{padding:9px 10px}
+  .drop{border:2px dashed #aab5ca;border-radius:8px;padding:16px 10px;text-align:center;color:var(--mute);cursor:pointer;line-height:1.7;background:#fafbfd}
+  .drop.over{border-color:var(--brass);background:var(--brass-bg);color:#6d4b0f}
+  .drop b{color:var(--ink)}
+  .thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .thumb{position:relative;width:78px;height:58px;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#000}
+  .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .2s}
+  .thumb button{position:absolute;top:2px;left:2px;width:18px;height:18px;border:none;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;line-height:1}
+  .btn{padding:9px 12px;border:none;border-radius:6px;cursor:pointer;font-weight:700;background:var(--ink);color:#fff}
+  .btn:hover{background:var(--ink2)} .btn:disabled{opacity:.5;cursor:wait}
+  .btn.brass{background:var(--brass)} .btn.brass:hover{background:#9c6f21}
+  .btn.light{background:#f1f4f9;color:var(--ink);border:1px solid var(--line)}
+  .row{display:flex;gap:6px;align-items:center}
+  .row>*{flex:1}
+  #status{font-size:11.5px;margin-top:7px;line-height:1.6;color:var(--mute)}
+  #status.ok{color:var(--jade)} #status.err{color:var(--rust)}
+  .progress{height:5px;background:#e3e8f1;border-radius:3px;overflow:hidden;margin-top:6px}
+  .progress i{display:block;height:100%;width:30%;background:var(--brass);animation:slide 1.1s infinite ease-in-out}
+  @keyframes slide{0%{margin-right:-30%}100%{margin-right:100%}}
+  @media (prefers-reduced-motion:reduce){.progress i{animation:none;width:100%}}
+
+  label.f{display:block;margin-bottom:7px}
+  label.f span{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin-bottom:2px}
+  label.f span em{font-style:normal;color:var(--rust)}
+  input[type=text],input[type=password],select{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:5px;background:#fff;color:var(--ink);font-size:13px}
+  input:focus,select:focus{outline:2px solid var(--brass);outline-offset:-1px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
+  .full{grid-column:1/-1}
+  input.empty-req,select.empty-req{background:#fff8e6;border-color:#e3c88e}
+  select.warn{background:#fff3d6;border-color:#d9a63a} select.bad{background:var(--rust-bg);border-color:var(--rust)} select.auto{background:#eaf1ff;border-color:#9db6e6}
+  input.warn{background:#fff3d6;border-color:#d9a63a}
+  input.bad{background:var(--rust-bg);border-color:var(--rust)}
+  input.auto{background:#eaf1ff;border-color:#9db6e6}
+  .tag{font-size:9.5px;padding:0 5px;border-radius:8px;margin-right:4px}
+  .tag.warn{background:#ffe6a8;color:#7a5200} .tag.bad{background:var(--rust-bg);color:var(--rust)} .tag.auto{background:#dbe7ff;color:#1d3a82}
+  .notes{font-size:11.5px;line-height:1.7;margin-bottom:8px}
+  .notes div{padding:5px 8px;border-radius:5px;margin-bottom:4px;background:#e8eefb;color:#243b73}
+  .notes div.ok{background:var(--jade-bg);color:#14543d}
+  .notes div.warn{background:var(--rust-bg);color:#7d2b19}
+  .stephead{font-size:11.5px;font-weight:700;color:var(--ink2);margin:4px 0 7px;padding-bottom:3px;border-bottom:1px solid var(--line)}
+  .chk{display:flex;gap:7px;align-items:center;margin:5px 0;font-size:12px}
+  .report{font-size:12px;line-height:1.7}
+  .report b{display:block;margin-top:5px}
+  .report .okc{color:var(--jade)} .report .badc{color:var(--rust)}
+  .privacy{font-size:11px;color:var(--mute);line-height:1.6;margin:2px 2px 10px}
+  footer{position:fixed;bottom:0;right:0;left:0;background:var(--card);border-top:1px solid var(--line);padding:8px 12px;display:flex;gap:6px;z-index:5}
+  footer .btn{flex:1;padding:9px 4px;font-size:12.5px}
+  .site{border:1px solid var(--brass);background:var(--brass-bg);border-radius:8px;padding:9px 11px;margin-bottom:10px;font-size:12px;line-height:1.7}
+  .site.on{border-color:var(--jade);background:var(--jade-bg)}
+  .site .row{margin-top:6px;gap:6px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>مساعد الإدخال الذكي</h1><small>دمج الصور ← تحليل ← تدقيقك ← تعبئة الخطوة</small></div>
+  <button id="newBtn" class="ghost">نزيل جديد</button>
+</header>
+
+<main>
+  <section class="site" id="siteBox" aria-live="polite">
+    <b id="siteTxt">🔐 الإضافة غير مفعّلة على موقع المنظومة.</b>
+    <div style="color:var(--mute)">لحماية الخصوصية لا تعمل الإضافة إلا على الموقع الذي تفعّله أنت. افتح صفحة المنظومة ثم اضغط الزر.</div>
+    <div class="row"><button id="siteBtn" class="btn brass">تفعيل على هذا الموقع</button><button id="siteOff" class="btn light" hidden>إلغاء التفعيل</button></div>
+  </section>
+
+  <p class="privacy"><span id="privTxt">🔒 كل التحليل يتم على جهازك عبر Ollama. لا تُرسل الصور أو الأسماء إلى أي خدمة خارجية.</span></p>
+
+  <section class="sec">
+    <h2>١. صور الوثائق (تُدمج معاً تلقائياً)</h2>
+    <div class="body">
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="اختيار صور الوثائق">
+        <b>اسحب الصور هنا</b> أو اضغط للاختيار<br>أو الصق بـ Ctrl+V (واجهة وخلفية الهوية، صفحة الجواز)
+      </div>
+      <input id="file" type="file" accept="image/*" multiple hidden>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="row" style="margin-top:9px"><button id="runBtn" class="btn brass" disabled>تحليل بالذكاء الاصطناعي</button><button id="stopBtn" class="btn light" hidden>إيقاف</button></div>
+      <div class="progress" id="prog" hidden><i></i></div>
+      <div id="status"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>إعدادات الذكاء <button id="cfgToggle" class="ghost" style="color:var(--ink);border-color:var(--line)">إظهار</button></h2>
+    <div class="body" id="cfg" hidden>
+      <label class="f"><span>محرك القراءة</span>
+        <select id="cProv"><option value="ollama">محلي (Ollama) — خصوصية كاملة</option><option value="gemini">Google Gemini API — أسرع وأدق (سحابي)</option></select></label>
+      <div id="gBox" hidden>
+        <p class="privacy" style="color:#7d2b19">⚠ مع Gemini تُرسل صور الوثائق إلى خوادم Google. في الطبقة المجانية قد تُستخدم البيانات لتحسين منتجات Google. استخدمه بعلم مسؤول الفندق وبما يسمح به نظامكم.</p>
+        <label class="f"><span>مفتاح API (من aistudio.google.com/apikey)</span><input id="gKey" type="password" dir="ltr" autocomplete="off" placeholder="AIza..."></label>
+        <label class="f"><span>النماذج (بالترتيب، يُجرَّب التالي عند انتهاء الحد المجاني)</span><input id="gModel" type="text" dir="ltr" list="gmodels" value="gemini-3.1-flash-lite, gemini-3.5-flash-lite, gemini-2.5-flash-lite, gemini-2.5-flash"></label>
+        <datalist id="gmodels"><option value="gemini-2.5-flash"><option value="gemini-2.5-flash-lite"><option value="gemini-3.1-flash-lite"><option value="gemini-3.5-flash-lite"></datalist>
+        <label class="chk"><input type="checkbox" id="cCloudAuto" checked> تحليل وتعبئة الخطوة الحالية تلقائياً فور رفع الصور سحابياً</label>
+      </div>
+      <div id="oBox">
+        <label class="f"><span>عنوان Ollama</span><input id="cUrl" type="text" dir="ltr" value="http://localhost:11434"></label>
+        <label class="f"><span>النموذج (يدعم الصور)</span><input id="cModel" type="text" dir="ltr" list="models" value="qwen3-vl:4b-instruct"></label>
+        <datalist id="models"><option value="qwen3-vl:4b-instruct"><option value="qwen3-vl:2b-instruct"><option value="qwen3-vl:8b-instruct"><option value="gemma3:4b"></datalist>
+      </div>
+      <div class="row"><button id="testBtn" class="btn light">اختبار الاتصال وجلب النماذج</button></div>
+      <label class="chk"><input type="checkbox" id="cAuto" checked> تعبئة تلقائية عند رفع الوثيقة داخل المنظومة</label>
+      <label class="chk"><input type="checkbox" id="cVisit" checked> تعبئة خطوة الزيارة (التاريخ والمدة) تلقائياً</label>
+      <label class="chk"><input type="checkbox" id="cRotate" checked> تدوير الصور المقلوبة تلقائياً قبل القراءة (طلب سريع إضافي)</label>
+      <div class="stephead" style="margin-top:12px">قيم افتراضية للزيارة</div>
+      <div class="grid2">
+        <label class="f"><span>سبب الزيارة</span><input id="cReason" type="text" value="زياره"></label>
+        <label class="f"><span>مدة الزيارة (أيام)</span><input id="cDays" type="text" value="1" dir="ltr"></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="reviewSec" hidden>
+    <h2>٢. مراجعة وتعديل <span id="kindTag" class="tag auto"></span></h2>
+    <div class="body">
+      <div class="notes" id="notes"></div>
+      <div id="form"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="reportSec" hidden>
+    <h2>نتيجة التعبئة</h2>
+    <div class="body report" id="report"></div>
+  </section>
+</main>
+
+<footer id="foot" hidden>
+  <button id="fillStep" class="btn">تعبئة الخطوة الحالية</button>
+</footer>
+
+<script src="countries.js"></script>
+<script src="imaging.js"></script>
+<script src="ai.js"></script>
+<script src="site.js"></script>
+<script src="assistant.js"></script>
+</body>
+</html>
